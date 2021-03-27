@@ -1,18 +1,23 @@
 #!/usr/bin/python3
 import requests, json, sys, pathlib
 
+__version__ = "0.1"
+
+
 class CheckVersion:
     def __init__(self, update=False):
-        current_version=0.1
-        r=requests.get("https://raw.githubusercontent.com/mustafw/binance-py/main/README.md").text.splitlines()
-        git_version="".join(i.replace("version=", "") if "version" in i else "" for i in r)
-        if git_version!=current_version:
-            print(f"There is a new version \"{git_version}\" available on https://github.com/mustafw/binance-py! You must run CheckVersion(update=True) to update automatically")
+        r = requests.get("https://raw.githubusercontent.com/mustafw/binance-py/main/BinanceAPI.py").text.splitlines()
+        git_version = "".join(i.replace("__version__=", "") if "__version__" in i else "" for i in r)
+        if git_version != __version__:
+            print(
+                f"There is a new version \"{git_version}\" available on https://github.com/mustafw/binance-py! You must run CheckVersion(update=True) to update automatically")
             if update:
-                new_text=requests.get("https://raw.githubusercontent.com/mustafw/binance-py/main/BinanceAPI.py").text
-                with open(__file__, "w", encoding="utf8") as f: # f"{pathlib.Path('python3').resolve()}/Lib/site-packages/BinanceAPI.py"
+                new_text = requests.get("https://raw.githubusercontent.com/mustafw/binance-py/main/BinanceAPI.py").text
+                with open(__file__, "w",
+                          encoding="utf8") as f:
                     f.write(new_text)
-                    exit(f"BinanceAPI has been updated to version {git_version} from {current_version}.")
+                    exit(f"BinanceAPI has been updated to version {git_version} from {__version__}.")
+
 
 class Prices:
     def __init__(self):
@@ -64,7 +69,8 @@ class Prices:
             coin_output["24H"]["LOW"] = str(make_float(coin["l"]) / make_float(coin2["l"]))
             coin_output["24H"]["AVERAGE"] = str(make_float(coin["o"]) / make_float(coin2["o"]))
         return (
-        coin_output, self.get_coin_status(base, quote if base != "BTC" else "ETH")) if not pass_status else coin_output
+            coin_output,
+            self.get_coin_status(base, quote if base != "BTC" else "ETH")) if not pass_status else coin_output
 
     def get_currency(self, base: str = "EUR", quote: str = "USD"):
         base, quote = base.upper(), quote.upper()
