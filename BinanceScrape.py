@@ -97,22 +97,13 @@ class Prices:
         return currency_output
 
 
-"""
-
-------------------------------------
-----------|    EXAMPLE   |----------
-------------------------------------
-
-"""
-
 if __name__ == "__main__":
-    jd = lambda x: json.dumps(x, indent=2)  ###  THIS MAKES JSON BEAUTIFUL! IT'S OPTIONAL  ###
+    jd = lambda x: json.dumps(x, indent=2)
     b = Prices()
 
-    "---------|   WITH JSON BEAUTIFUL FUNCTION   |---------"
     print(jd(b.get_currency("eur", "usd")), "\n", jd(b.get_coin("xrp", "usdt",
                                                                 pass_status=False)), )  ### YOU MAY SET "pass_status=False" to "pass_status=True" IF YOU WANT MORE DETAILS
 
-    "---------|   WITHOUT JSON BEAUTIFUL FUNCTION   |---------"
+
     print(b.get_currency("eur", "usd"), "\n", b.get_coin("xrp", "usdt",
                                                          pass_status=False), )  ### YOU MAY SET "pass_status=False" to "pass_status=True" IF YOU WANT MORE DETAILS
